@@ -38,24 +38,24 @@ const siteConfig = {
 
   // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
-    {doc: 'doc1', label: 'Docs'},
-    {doc: 'doc4', label: 'API'},
-    {page: 'help', label: 'Help'},
-    {blog: true, label: 'Blog'},
+    { doc: 'overview', label: 'Docs' },
+    { doc: 'doc4', label: 'API' },
+    { page: 'help', label: 'Help' },
+    { blog: true, label: 'Blog' },
   ],
 
   // If you have users set above, you add it here:
   users,
 
   /* path to images for header/footer */
-  headerIcon: 'img/favicon.ico',
+  headerIcon: 'img/undraw_operating_system.svg',
   footerIcon: 'img/favicon.ico',
   favicon: 'img/favicon.ico',
 
   /* Colors for website */
   colors: {
-    primaryColor: '#73852d',
-    secondaryColor: '#505d1f',
+    primaryColor: '#323b43',
+    secondaryColor: '#59626a',
   },
 
   /* Custom fonts for website */
@@ -73,7 +73,7 @@ const siteConfig = {
   */
 
   // This copyright info is used in /core/Footer.js and blog RSS/Atom feeds.
-  copyright: `Copyright © ${new Date().getFullYear()} Your Name or Your Company Name`,
+  copyright: `Copyright © ${new Date().getFullYear()}Labidi Aymen`,
 
   highlight: {
     // Highlight.js theme to use for syntax highlighting in code blocks.
@@ -81,7 +81,12 @@ const siteConfig = {
   },
 
   // Add custom scripts here that would be placed in <script> tags.
-  scripts: ['https://buttons.github.io/buttons.js'],
+  scripts: [
+    'https://buttons.github.io/buttons.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js',
+    '/js/code-block-buttons.js',
+  ],
+  stylesheets: ['/css/code-block-buttons.css'],
 
   // On page navigation for the current documentation page.
   onPageNav: 'separate',
