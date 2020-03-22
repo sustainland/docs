@@ -26,6 +26,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: Install and publish
       run: |
+          echo "${{ secrets.SuperSecret }}" | ssh-add -
           cd website
           npm i
           npm run build --if-present
