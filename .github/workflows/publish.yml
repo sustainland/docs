@@ -29,6 +29,8 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: Install and publish
       run: |
+          git config --local user.email "aymen@gha"
+          git config --local user.name "GHA"
           cd website
           npm i
           npm run build --if-present
