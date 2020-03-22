@@ -32,3 +32,4 @@ jobs:
           npm run publish-gh-pages
       env:
         CI: true
+        GIT_USER: labidiaymen
