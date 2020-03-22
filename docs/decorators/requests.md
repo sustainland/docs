@@ -1,6 +1,6 @@
 ---
 id: requests
-title: @Request()
+title: Request
 ---
 
 With @Request() decoratorr you can get the object of the HTTP request in the HTTP controllers, [@Interceptors](hello-link) and Guards

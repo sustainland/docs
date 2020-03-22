@@ -1,6 +1,6 @@
 ---
 id: interceptors
-title: @Interceptors()
+title: Interceptors
 ---
 
 @Interceptors can be a middleware or a guard, a class of interceptors is a collections of related method that can recieve all http related object, like request, response, header and so on.
@@ -10,9 +10,9 @@ Here's and example, will start by creating the class
 
 ```typescript
 import { Next, Response, Headers } from "@sustain/http";
-import { Injectable } from "@sustain/core";
+import { Interceptor } from "@sustain/core";
 
-@Injectable()
+@Interceptor()
 export class Auth{
 
     /**
@@ -42,18 +42,16 @@ And using theses methods in the ``user.controller.ts``
 
 ```typescript
 import { Get, Post, Request, Params, Response } from "@sustain/htpp";
-import { Injectable, Interceptors } from "@sustain/core";
+import { Controller, Interceptors } from "@sustain/core";
 import { UserService } from "../services/user.service";
-import {  } from "../decorators/interceptors.decorators";
 import { Auth } from "../auth";
 
-import { } from 'sustain';
 
-@Injectable()
+@Controller('/users')
 export default class UserController {
     constructor(private userService: UserService) { }
 
-    @Get('/users')
+    @Get()
     users() {
         return this.userService.list();
 
@@ -63,11 +61,11 @@ export default class UserController {
         Auth.isAuthenticated, // this interceptor will be called before executing the userDetails method
         Auth.validateParams, // we can also chain a list of function and they will be called in sequance
     ])
-    @Get('/user/:id/details')
+    @Get('/:id/details')
     userDetails(@Request() request: HttpRequest , @Params() params: HttpParams) {
         const { id } = params;
         return this.userService.syncGet(id);
     }
-
 }
+
 ```

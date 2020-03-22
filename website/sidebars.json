@@ -2,15 +2,12 @@
   "docs": {
     "OVERVIEW": [
       "overview",
-      "first-steps",
       "controllers",
+      "interceptors",
       "decorators"
     ],
     "Decorators": [
-      "decorators/requests",
       "decorators/responses",
-      "decorators/headers",
-      "decorators/interceptors",
       "decorators/sessions"
     ]
   },

@@ -15,7 +15,7 @@ const users = [
     // You will need to prepend the image path with your baseUrl
     // if it is not '/', like: '/test-site/img/image.jpg'.
     image: '/img/undraw_open_source.svg',
-    infoLink: 'https://www.facebook.com',
+    infoLink: 'http://www.aymen.co',
     pinned: true,
   },
 ];
@@ -30,8 +30,8 @@ const siteConfig = {
   //   baseUrl: '/test-site/',
 
   // Used for publishing and more
-  projectName: 'test-site',
-  organizationName: 'facebook',
+  projectName: 'Sustain',
+  organizationName: 'Vaulab',
   // For top-level user or org sites, the organization is still the same.
   // e.g., for the https://JoelMarcey.github.io site, it would be set like...
   //   organizationName: 'JoelMarcey'
@@ -39,22 +39,21 @@ const siteConfig = {
   // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
     { doc: 'overview', label: 'Docs' },
-    { page: 'help', label: 'Help' },
-    { blog: true, label: 'Blog' },
+    { href: "https://github.com/labidiaymen/sustain", label: 'Github' },
   ],
 
   // If you have users set above, you add it here:
   users,
 
   /* path to images for header/footer */
-  headerIcon: 'img/undraw_operating_system.svg',
+  headerIcon: 'img/logo.png',
   footerIcon: 'img/favicon.ico',
   favicon: 'img/favicon.ico',
 
   /* Colors for website */
   colors: {
-    primaryColor: '#323b43',
-    secondaryColor: '#59626a',
+    primaryColor: '#323330',
+    secondaryColor: '#4c4c4c',
   },
 
   /* Custom fonts for website */

@@ -32,7 +32,6 @@ export default class UserController {
 
 ```
 
-## @decorators
 
 A decorator is a new way to JavaScript developer to do things **[Thanks to TypeScript](https://www.typescriptlang.org/)**, get access to variable, manipulate and write data into them.
 
@@ -83,16 +82,37 @@ export default class HomeController {
 
 ## @Post()
 
+With the @Post() decorator you can start accepting post request.
+```typescript
+@Controller()
+export default class HomeController {
+    @Post()
+    PostBody(@Body() body: string) {
+        return body;
+    }
+}
 
-# Need content
+```
+## @Body()
+
+You can grap all the body by the  @Body() decorator or you ca pick a single element from the Body by passing the name of the attribute
 
 
+```typescript
+@Controller()
+export default class HomeController {
+    @Post()
+    PostBody(@Body('name') name: string) {
+        return name;
+    }
+}
+
+```
 
 
-## @Params(), @Param()
+## @Params()
   
-
-The **@Params** decorator let you get all the route params.
+Picking the url params is easy with the @Params() decorator.
   
 
 ```typescript
@@ -104,7 +124,6 @@ userDetails(@Params() params: any)  {
 }
 
 ```
-
 You can also get a *single* param by passing the name to the @Param() decorator
 **Example**
 
@@ -115,4 +134,44 @@ userDetails(@Param('id') id: string)  {
     return  this.userService.syncGet(id);
 }
 
+```
+
+## @Headers()
+
+Grabing the headers from the request is easy by using **@Headers** decorator
+
+We will take an example from the Interceptors
+
+
+```typescript
+import { Next, Response, Headers } from "@sustain/http";
+import { Interceptor } from "@sustain/core";
+
+@Interceptor()
+export class Auth{
+
+    static isAuthenticated(@Next() next: any, @Response() res : any, @Headers() header: any) {
+        const { host } = header;
+        console.log(`Enter in isAuthenticated from host ${host}`);
+        next();
+    }
+    ...
+}
+```
+In this example we will pick the host from the headers by passing the name **@Header('host')**
+
+
+```typescript
+import { Next, Response, Headers } from "@sustain/http";
+import { Interceptor } from "@sustain/core";
+
+@Interceptor()
+export class Auth{
+
+    static isAuthenticated(@Next() next: any, @Response() res : any, @Headers('host') host: any) {
+        console.log(`Enter in isAuthenticated from host ${host}`);
+        next();
+    }
+    ...
+}
 ```
