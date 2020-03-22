@@ -7,7 +7,6 @@
       "decorators"
     ],
     "Decorators": [
-      "decorators/responses",
       "decorators/sessions"
     ]
   },
