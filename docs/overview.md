@@ -12,7 +12,7 @@ Sustain is a Framework that barely uses despedencies and it is designed especial
 
 ## Philosophy
 
-Building an application that depends on packages that they may be also depending on other packages is something that requires a periodical maintenance by installing the latest updates. This dependency will expose your application to eventual instability and vulnerability.
+Building an application that depends on packages that they may be also depending on other packages is something that requires a periodic maintenance by installing the latest updates. This dependency will expose your application to eventual instability and vulnerability.
 
 Decoupling the application from the dependant packages by using the Sustain framework will make the maintenance focused on only one package.
 
