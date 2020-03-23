@@ -10,6 +10,7 @@ a {
     color: #f0542d;
     text-decoration: none;
 }
+
 @media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
 }
 
@@ -23,4 +24,11 @@ a {
 }
 
 @media only screen and (min-width: 1500px) {
+}
+
+@media (max-width: 480px)
+{
+    .headerTitleWithLogo {
+        display: block !important;
+    }
 }
