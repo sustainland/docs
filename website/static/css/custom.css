@@ -6,7 +6,10 @@
  */
  
 /* your custom css */
-
+a {
+    color: #f0542d;
+    text-decoration: none;
+}
 @media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
 }
 

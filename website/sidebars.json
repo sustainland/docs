@@ -4,10 +4,8 @@
       "overview",
       "controllers",
       "interceptors",
-      "decorators"
-    ],
-    "Decorators": [
-      "decorators/sessions"
+      "decorators",
+      "sessions"
     ]
   },
   "docs-other": {

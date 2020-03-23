@@ -4,13 +4,28 @@ title: Introduction
 sidebar_label: Introduction
 ---
 
-SustainJS is a framework for building efficient, scalable Node.js server-side applications.
-It uses progressive JavaScript, is built with and fully supports TypeScript (yet still enables developers to code in pure JavaScript) and combines elements of OOP (Object Oriented Programming), FP (Functional Programming), and FRP (Functional Reactive Programming).
+
+
+## Description:
+
+Sustain is a Framework that barely uses despedencies and it is designed especially to make stable and sustainable apps. It is built with [TypeScript](https://www.typescriptlang.org/), uses OOP (Object Oriented Programming) and built-in [Dependency Injections](https://en.wikipedia.org/wiki/Dependency_injection). 
 
 ## Philosophy
+
+Building an application that depends on packages that they may be also depending on other packages is something that requires a periodical maintenance by installing the latest updates. This dependency will expose your application to eventual instability and vulnerability.
+
+Decoupling the application from the dependant packages by using the Sustain framework will make the maintenance focused on only one package.
 
 
 
 
 ## Installation
 
+```yaml
+npx degit labidiaymen/sustain-sample sustain-project
+
+cd sustain-project
+npm install
+
+npm run dev
+```
