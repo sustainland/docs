@@ -5,6 +5,9 @@
       "controllers",
       "interceptors",
       "sessions"
+    ],
+    "Extensions": [
+      "swagger"
     ]
   },
   "docs-other": {
