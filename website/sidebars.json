@@ -7,7 +7,8 @@
       "sessions"
     ],
     "Extensions": [
-      "swagger"
+      "swagger",
+      "crud"
     ]
   },
   "docs-other": {
