@@ -40,7 +40,7 @@ export default class HttpController {
 
     @Post('/session')
     setSession(@Body('id') id: any, @Session() session: any) {
-        session.set('id', id)
+        session.id = id;
         return session;
     }
 }
@@ -69,10 +69,3 @@ export default class HttpController {
 
 
 ```
-
-## Providers
-
-### files
-### Databases/Data structure 
-#### MongoDB
-#### Redis

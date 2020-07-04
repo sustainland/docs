@@ -8,7 +8,7 @@
     ],
     "Extensions": [
       "swagger",
-      "crud"
+      "typeorm-crud"
     ]
   },
   "docs-other": {
