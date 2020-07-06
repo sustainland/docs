@@ -1,0 +1,115 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Interceptors · Sustain</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="@Interceptors can be a middleware or a guard, a class of interceptors is a collections of related method that can recieve all http related object, like request, response, header and so on."/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Interceptors · Sustain"/><meta property="og:type" content="website"/><meta property="og:url" content="https://sustainland.github.io/docs/"/><meta property="og:description" content="@Interceptors can be a middleware or a guard, a class of interceptors is a collections of related method that can recieve all http related object, like request, response, header and so on."/><meta property="og:image" content="https://sustainland.github.io/docs/img/undraw_online.svg"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://sustainland.github.io/docs/img/undraw_tweetstorm.svg"/><link rel="shortcut icon" href="/docs/img/favicon.ico"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script><script src="/docs/js/scrollSpy.js"></script><link rel="stylesheet" href="/docs/css/main.css"/><script src="/docs/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/docs/"><img class="logo" src="/docs/img/logo.png" alt="Sustain"/><h2 class="headerTitleWithLogo">Sustain</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/docs/overview" target="_self">Docs</a></li><li class=""><a href="https://github.com/sustainland/sustain" target="_self">Github</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>OVERVIEW</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">OVERVIEW</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/docs/overview">Introduction</a></li><li class="navListItem"><a class="navItem" href="/docs/docs/controllers">Controllers</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/docs/docs/interceptors">Interceptors</a></li><li class="navListItem"><a class="navItem" href="/docs/docs/sessions">Sessions</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Extensions</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/docs/swagger">Swagger</a></li><li class="navListItem"><a class="navItem" href="/docs/docs/typeorm-crud">TypeORM CRUD</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">Interceptors</h1></header><article><div><span><p>@Interceptors can be a middleware or a guard, a class of interceptors is a collections of related method that can recieve all http related object, like request, response, header and so on.
+Theses methods will be used in the controllers and called using @Interceptors() decorator.</p>
+<p>Here's and example, will start by creating the class</p>
+<pre><code class="hljs css language-typescript"><span class="hljs-keyword">import</span> { Next, Response, Headers } <span class="hljs-keyword">from</span> <span class="hljs-string">"@sustain/http"</span>;
+<span class="hljs-keyword">import</span> { Interceptor } <span class="hljs-keyword">from</span> <span class="hljs-string">"@sustain/core"</span>;
+
+<span class="hljs-meta">@Interceptor</span>()
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> Auth{
+
+    <span class="hljs-comment">/**
+     * @description using decorators in interceptors, passing to next interceptor or route handler function with @Next
+     * we can use all params route decorators like : @Response, @Request, @Session, @Params, @Files ....
+     */</span>
+    <span class="hljs-keyword">static</span> isAuthenticated(<span class="hljs-meta">@Next</span>() next: <span class="hljs-built_in">any</span>, <span class="hljs-meta">@Response</span>() res : <span class="hljs-built_in">any</span>, <span class="hljs-meta">@Headers</span>() header: <span class="hljs-built_in">any</span>) {
+        <span class="hljs-keyword">const</span> { host } = header;
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Enter in isAuthenticated from host <span class="hljs-subst">${host}</span>`</span>);
+        next();
+    }
+    
+      validateParams(req: <span class="hljs-built_in">any</span>, res: <span class="hljs-built_in">any</span>, next: <span class="hljs-built_in">any</span>) {
+        <span class="hljs-keyword">const</span> { id } = req.params;
+        <span class="hljs-comment">// throw  new Error('Hey, handling errors');</span>
+        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">isNaN</span>(+id)) {
+            res.end(<span class="hljs-string">'Not a number'</span>)
+        }
+        next();
+    }
+}
+</code></pre>
+<p>And using theses methods in the <code>user.controller.ts</code></p>
+<pre><code class="hljs css language-typescript"><span class="hljs-keyword">import</span> { Get, Post, Request, Params, Response } <span class="hljs-keyword">from</span> <span class="hljs-string">"@sustain/htpp"</span>;
+<span class="hljs-keyword">import</span> { Controller, Interceptors } <span class="hljs-keyword">from</span> <span class="hljs-string">"@sustain/core"</span>;
+<span class="hljs-keyword">import</span> { UserService } <span class="hljs-keyword">from</span> <span class="hljs-string">"../services/user.service"</span>;
+<span class="hljs-keyword">import</span> { Auth } <span class="hljs-keyword">from</span> <span class="hljs-string">"../auth"</span>;
+
+
+<span class="hljs-meta">@Controller</span>(<span class="hljs-string">'/users'</span>)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> UserController {
+    <span class="hljs-keyword">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> userService: UserService</span>) { }
+
+    <span class="hljs-meta">@Get</span>()
+    users() {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.userService.list();
+
+    }
+
+    <span class="hljs-meta">@Interceptors</span>([
+        Auth.isAuthenticated, <span class="hljs-comment">// this interceptor will be called before executing the userDetails method</span>
+        Auth.validateParams, <span class="hljs-comment">// we can also chain a list of function and they will be called in sequance</span>
+    ])
+    <span class="hljs-meta">@Get</span>(<span class="hljs-string">'/:id/details'</span>)
+    userDetails(<span class="hljs-meta">@Request</span>() request: HttpRequest , <span class="hljs-meta">@Params</span>() params: HttpParams) {
+        <span class="hljs-keyword">const</span> { id } = params;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.userService.syncGet(id);
+    }
+}
+
+</code></pre>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/docs/controllers"><span class="arrow-prev">← </span><span>Controllers</span></a><a class="docs-next button" href="/docs/docs/sessions"><span>Sessions</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"></nav></div><footer class="nav-footer" id="footer"><section class="copyright">Copyright © 2020 Labidi Aymen</section></footer></div></body></html>
