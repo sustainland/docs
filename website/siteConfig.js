@@ -23,15 +23,15 @@ const users = [
 const siteConfig = {
   title: 'Sustain', // Title for your website.
   tagline: 'A website for testing',
-  url: 'https://labidiaymen.github.io', // Your website URL
-  baseUrl: '/sustain-docs/', // Base URL for your project */
+  url: 'https://sustainland.github.io', // Your website URL
+  baseUrl: '/docs/', // Base URL for your project */
   // For github.io type URLs, you would set the url and baseUrl like:
   //   url: 'https://facebook.github.io',
   //   baseUrl: '/test-site/',
 
   // Used for publishing and more
-  projectName: 'sustain-docs',
-  organizationName: 'labidiaymen',
+  projectName: 'docs',
+  organizationName: 'sustainland',
   // For top-level user or org sites, the organization is still the same.
   // e.g., for the https://JoelMarcey.github.io site, it would be set like...
   //   organizationName: 'JoelMarcey'
@@ -39,7 +39,7 @@ const siteConfig = {
   // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
     { doc: 'overview', label: 'Docs' },
-    { href: "https://github.com/labidiaymen/sustain", label: 'Github' },
+    { href: "https://github.com/sustainland/sustain", label: 'Github' },
   ],
 
   // If you have users set above, you add it here:
