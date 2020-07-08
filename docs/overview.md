@@ -21,11 +21,12 @@ Decoupling the application from the dependant packages by using the Sustain fram
 
 ## Installation
 
-```yaml
-npx degit labidiaymen/sustain-sample sustain-project
+```haskell
+npx degit sustainland/sustain/samples/blank sustain-project
 
 cd sustain-project
+
 npm install
 
-npm run dev
+npm start
 ```
