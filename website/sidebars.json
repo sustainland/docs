@@ -3,8 +3,10 @@
     "OVERVIEW": [
       "overview",
       "controllers",
+      "services",
       "interceptors",
-      "sessions"
+      "modules",
+      "cli"
     ],
     "Extensions": [
       "swagger",
