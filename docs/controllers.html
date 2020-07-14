@@ -55,13 +55,13 @@
               }
             });
         </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">Controllers</h1></header><article><div><span><p>Controllers are a group related <strong>HTTP</strong> request handlers organized into classes, they are also the main responsible for returning <strong>responses</strong> to the client.</p>
-<pre><code class="hljs css language-typescript"><span class="hljs-keyword">import</span> { Get, Post,  Request, Params, Response, Interceptors } <span class="hljs-keyword">from</span> <span class="hljs-string">"@sustain/http"</span>;
-<span class="hljs-keyword">import</span> { Injectable } <span class="hljs-keyword">from</span>  <span class="hljs-string">"@sustain/core"</span>;
+<pre><code class="hljs css language-typescript"><span class="hljs-keyword">import</span> { Get, Post,  Request, Params, Response, Interceptors } <span class="hljs-keyword">from</span> <span class="hljs-string">"@sustain/common"</span>;
+<span class="hljs-keyword">import</span> { Controller } <span class="hljs-keyword">from</span>  <span class="hljs-string">"@sustain/core"</span>;
 <span class="hljs-keyword">import</span> { UserService } <span class="hljs-keyword">from</span> <span class="hljs-string">"../services/user.service"</span>;
 <span class="hljs-keyword">import</span> { Auth } <span class="hljs-keyword">from</span> <span class="hljs-string">"../auth"</span>;
 
 
-<span class="hljs-meta">@Injectable</span>()
+<span class="hljs-meta">@Controller</span>()
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> UserController {
     <span class="hljs-keyword">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> userService: UserService</span>) { }
 
@@ -82,6 +82,36 @@
 </code></pre>
 <p>A decorator is a new way to JavaScript developer to do things <strong><a href="https://www.typescriptlang.org/">Thanks to TypeScript</a></strong>, get access to variable, manipulate and write data into them.</p>
 <p>There's a bunch of operator in Sustain framework that let you access and manipulate the HTTP inctances.</p>
+<p><strong>PS:</strong> You can also use scoped route defined in the controller like:</p>
+<pre><code class="hljs css language-typescript"><span class="hljs-keyword">import</span> { Get, Post,  Request, Params, Response, Interceptors } <span class="hljs-keyword">from</span> <span class="hljs-string">"@sustain/common"</span>;
+<span class="hljs-keyword">import</span> { Controller } <span class="hljs-keyword">from</span>  <span class="hljs-string">"@sustain/core"</span>;
+<span class="hljs-keyword">import</span> { UserService } <span class="hljs-keyword">from</span> <span class="hljs-string">"../services/user.service"</span>;
+<span class="hljs-keyword">import</span> { Auth } <span class="hljs-keyword">from</span> <span class="hljs-string">"../auth"</span>;
+
+
+<span class="hljs-meta">@Controller</span>(<span class="hljs-string">'users'</span>) <span class="hljs-comment">// define route prefix</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> UserController {
+    <span class="hljs-keyword">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> userService: UserService</span>) { }
+
+    <span class="hljs-meta">@Get</span>()
+    users() {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.userService.list();
+    }
+
+    <span class="hljs-meta">@Get</span>(<span class="hljs-string">':id'</span>)
+    user(<span class="hljs-meta">@Request</span>() request: <span class="hljs-built_in">any</span>) {
+        <span class="hljs-keyword">const</span> { id } = request.params
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.userService.get(id);
+
+    }
+}
+
+</code></pre>
+<p>This will generate</p>
+<ul>
+<li><p><strong>GET</strong> /users</p></li>
+<li><p><strong>GET</strong> /users/:id</p></li>
+</ul>
 <h2><a class="anchor" aria-hidden="true" id="controller-decorators"></a><a href="#controller-decorators" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Controller decorators</h2>
 <h2><a class="anchor" aria-hidden="true" id="get"></a><a href="#get" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>@Get()</h2>
 <p>You can listining to the GET Http methods in your controller by using the <strong>@Get('url segment or regex')</strong></p>
@@ -151,10 +181,10 @@ userDetails(<span class="hljs-meta">@Param</span>(<span class="hljs-string">'id'
 <h2><a class="anchor" aria-hidden="true" id="headers"></a><a href="#headers" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>@Headers()</h2>
 <p>Grabing the headers from the request is easy by using <strong>@Headers</strong> decorator</p>
 <p>We will take an example from the Interceptors</p>
-<pre><code class="hljs css language-typescript"><span class="hljs-keyword">import</span> { Next, Response, Headers } <span class="hljs-keyword">from</span> <span class="hljs-string">"@sustain/http"</span>;
-<span class="hljs-keyword">import</span> { Interceptor } <span class="hljs-keyword">from</span> <span class="hljs-string">"@sustain/core"</span>;
+<pre><code class="hljs css language-typescript"><span class="hljs-keyword">import</span> { Next, Response, Headers, Interceptor} <span class="hljs-keyword">from</span> <span class="hljs-string">"@sustain/common"</span>;
+<span class="hljs-keyword">import</span> { Injectable } <span class="hljs-keyword">from</span> <span class="hljs-string">"@sustain/core"</span>;
 
-<span class="hljs-meta">@Interceptor</span>()
+<span class="hljs-meta">@Injectable</span>()
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> Auth{
 
     <span class="hljs-keyword">static</span> isAuthenticated(<span class="hljs-meta">@Next</span>() next: <span class="hljs-built_in">any</span>, <span class="hljs-meta">@Response</span>() res : <span class="hljs-built_in">any</span>, <span class="hljs-meta">@Headers</span>() header: <span class="hljs-built_in">any</span>) {
@@ -166,10 +196,10 @@ userDetails(<span class="hljs-meta">@Param</span>(<span class="hljs-string">'id'
 }
 </code></pre>
 <p>In this example we will pick the host from the headers by passing the name <strong>@Header('host')</strong></p>
-<pre><code class="hljs css language-typescript"><span class="hljs-keyword">import</span> { Next, Response, Headers } <span class="hljs-keyword">from</span> <span class="hljs-string">"@sustain/http"</span>;
-<span class="hljs-keyword">import</span> { Interceptor } <span class="hljs-keyword">from</span> <span class="hljs-string">"@sustain/core"</span>;
+<pre><code class="hljs css language-typescript"><span class="hljs-keyword">import</span> { Next, Response, Headers } <span class="hljs-keyword">from</span> <span class="hljs-string">"@sustain/common"</span>;
+<span class="hljs-keyword">import</span> { Injectable } <span class="hljs-keyword">from</span> <span class="hljs-string">"@sustain/core"</span>;
 
-<span class="hljs-meta">@Interceptor</span>()
+<span class="hljs-meta">@Injectable</span>()
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> Auth{
 
     <span class="hljs-keyword">static</span> isAuthenticated(<span class="hljs-meta">@Next</span>() next: <span class="hljs-built_in">any</span>, <span class="hljs-meta">@Response</span>() res : <span class="hljs-built_in">any</span>, <span class="hljs-meta">@Headers</span>(<span class="hljs-string">'host'</span>) host: <span class="hljs-built_in">any</span>) {
