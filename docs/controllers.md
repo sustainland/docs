@@ -6,13 +6,13 @@ title: Controllers
 Controllers are a group related **HTTP** request handlers organized into classes, they are also the main responsible for returning **responses** to the client.
 
 ```typescript
-import { Get, Post,  Request, Params, Response, Interceptors } from "@sustain/http";
-import { Injectable } from  "@sustain/core";
+import { Get, Post,  Request, Params, Response, Interceptors } from "@sustain/common";
+import { Controller } from  "@sustain/core";
 import { UserService } from "../services/user.service";
 import { Auth } from "../auth";
 
 
-@Injectable()
+@Controller()
 export default class UserController {
     constructor(private userService: UserService) { }
 
@@ -37,8 +37,38 @@ A decorator is a new way to JavaScript developer to do things **[Thanks to TypeS
 
 There's a bunch of operator in Sustain framework that let you access and manipulate the HTTP inctances.
 
+**PS:** You can also use scoped route defined in the controller like:
+
+```typescript
+import { Get, Post,  Request, Params, Response, Interceptors } from "@sustain/common";
+import { Controller } from  "@sustain/core";
+import { UserService } from "../services/user.service";
+import { Auth } from "../auth";
 
 
+@Controller('users') // define route prefix
+export default class UserController {
+    constructor(private userService: UserService) { }
+
+    @Get()
+    users() {
+        return this.userService.list();
+    }
+
+    @Get(':id')
+    user(@Request() request: any) {
+        const { id } = request.params
+        return this.userService.get(id);
+
+    }
+}
+
+```
+This will generate
+
+- **GET** /users
+
+- **GET** /users/:id
 ## Controller decorators
 
 
@@ -144,10 +174,10 @@ We will take an example from the Interceptors
 
 
 ```typescript
-import { Next, Response, Headers } from "@sustain/http";
-import { Interceptor } from "@sustain/core";
+import { Next, Response, Headers, Interceptor} from "@sustain/common";
+import { Injectable } from "@sustain/core";
 
-@Interceptor()
+@Injectable()
 export class Auth{
 
     static isAuthenticated(@Next() next: any, @Response() res : any, @Headers() header: any) {
@@ -162,10 +192,10 @@ In this example we will pick the host from the headers by passing the name **@He
 
 
 ```typescript
-import { Next, Response, Headers } from "@sustain/http";
-import { Interceptor } from "@sustain/core";
+import { Next, Response, Headers } from "@sustain/common";
+import { Injectable } from "@sustain/core";
 
-@Interceptor()
+@Injectable()
 export class Auth{
 
     static isAuthenticated(@Next() next: any, @Response() res : any, @Headers('host') host: any) {
