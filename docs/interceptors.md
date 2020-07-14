@@ -9,10 +9,10 @@ Theses methods will be used in the controllers and called using @Interceptors() 
 Here's and example, will start by creating the class 
 
 ```typescript
-import { Next, Response, Headers } from "@sustain/http";
-import { Interceptor } from "@sustain/core";
+import { Next, Response, Headers } from "@sustain/common";
+import { Injectable } from "@sustain/core";
 
-@Interceptor()
+@Injectable()
 export class Auth{
 
     /**
@@ -36,8 +36,7 @@ export class Auth{
 }
 ```
 
-And using theses methods in the ``user.controller.ts``
-
+And using theses methods in the ``UserController``
 
 
 ```typescript
