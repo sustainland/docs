@@ -11,12 +11,12 @@
     "Extensions": [
       "swagger",
       "typeorm-crud"
-    ]
-  },
-  "docs-other": {
-    "First Category": [
-      "doc4",
-      "doc5"
+    ],
+    "Tutorials": [
+      "tutorials/create-new-app",
+      "tutorials/create-new-controller",
+      "tutorials/create-new-interceptor",
+      "tutorials/create-new-module"
     ]
   }
 }

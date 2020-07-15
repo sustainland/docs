@@ -8,7 +8,7 @@ It behave like the main appliation by importing, injecting prodivers and declari
 
 It also can be expoterted and shared across the Internet.
 
-### Module structure
+### Structure
 A module is a folder that mainly contain a module declaration file and a controller.
 It also can hold an entire application that can be imported is the main application
 
