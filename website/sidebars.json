@@ -15,9 +15,7 @@
     "Tutorials": [
       "tutorials/create-new-app",
       "tutorials/create-new-controller",
-      "tutorials/create-new-service",
-      "tutorials/create-new-interceptor",
-      "tutorials/create-new-module"
+      "tutorials/create-new-service"
     ]
   }
 }
