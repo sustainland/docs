@@ -92,4 +92,25 @@ We need to important the service into ``App.ts`` to let now the Injector that we
 
 ```
 
+And the Final folder structure
+```ts
+.
+├── package-lock.json
+├── package.json
+├── public
+│   ├── favicon.ico
+│   ├── index.html
+│   ├── logo-text.png
+│   └── logo.png
+├── src
+│   ├── app.ts
+│   ├── controllers
+│   │   └── ProjectController.ts
+│   ├── models
+│   │   └── project.model.ts
+│   └── services
+│       └── ProjectService.ts
+└── tsconfig.json
+```
+
 You can find the source code of this tutorial in this repository : https://github.com/sustainland/tutorials
