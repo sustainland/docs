@@ -78,7 +78,7 @@ export default class PlayerController extends TypeORMCrudController<PlayerDto> {
 ....
 ```
 
-We can also have an Interceptor on the controller. 
+We can also have an Interceptor in the controller. 
 Let's look at the example here.
 
 ``` typescript
