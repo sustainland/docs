@@ -9,7 +9,7 @@ It intercepts your request, executes some treatment and let it go, that's it.
 
 The use case the most interesting for using Interceptors is with controllers. Let’s take an example of a token validation
 
-It implements ` ` SustainInterceptor `  ` interface from `  ` @sustain/core ` ` module
+It implements `` SustainInterceptor `` interface from `` @sustain/core `` module
 
 ``` typescript
 import { Response, Next, Headers } from '@sustain/common';
@@ -36,7 +36,7 @@ export class CanLoginInterceptor implements SustainInterceptor {
 }
 ```
 
-As shown above, an interceptor is an ` ` @Injectable `  ` class so it should be imported in the `  ` app module ` ` .
+As shown above, an interceptor is an `` @Injectable`` class so it should be imported in the `` app module `` .
 
 ``` typescript
 @App({
