@@ -3,68 +3,134 @@ id: interceptors
 title: Interceptors
 ---
 
-@Interceptors can be a middleware or a guard, a class of interceptors is a collections of related method that can recieve all http related object, like request, response, header and so on.
-Theses methods will be used in the controllers and called using @Interceptors() decorator.
+It intercept your request, execute some treatment and let it go, that's it.
 
-Here's and example, will start by creating the class 
+## Use cases
 
-```typescript
-import { Next, Response, Headers } from "@sustain/common";
-import { Injectable } from "@sustain/core";
+The most place that make Interceptors usefull is the controller, we can take an example of the validation of a token.
+
+It implements ` `SustainInterceptor`  ` interface from `  `@sustain/core` ` module
+
+``` typescript
+import { Response, Next, Headers } from '@sustain/common';
+import { Injectable, SustainInterceptor } from "@sustain/core";
 
 @Injectable()
-export class Auth{
-
+export class CanLoginInterceptor implements SustainInterceptor {
+    constructor() { }
     /**
      * @description using decorators in interceptors, passing to next interceptor or route handler function with @Next
      * we can use all params route decorators like : @Response, @Request, @Session, @Params, @Files ....
      */
-    static isAuthenticated(@Next() next: any, @Response() res : any, @Headers() header: any) {
+    intercept(@Next() next: any, @Response() response: any, @Headers() header: any) {
         const { host } = header;
-        console.log(`Enter in isAuthenticated from host ${host}`);
+        /*
+
+        * ... token validation ...
+
+        */
+        response.end( `You are not authorized to execute this request, ${host}` );
         next();
     }
-    
-      validateParams(req: any, res: any, next: any) {
-        const { id } = req.params;
-        // throw  new Error('Hey, handling errors');
-        if (isNaN(+id)) {
-            res.end('Not a number')
-        }
+
+}
+```
+
+As we can see an interceptor is an ` ` @Injectable `  ` class so it need to be imported in the `  ` app module ` ` .
+
+``` typescript
+@App({
+    controllers: [
+        BaseController,
+        DatabaseProvider,
+        PlayerController,
+
+    ],
+    providers: [
+        LoggerService,
+        UserService,
+        CanLoginInterceptor,  // <-- addded here
+    ],
+    port: process.env.PORT || 5002,
+   ...
+})
+```
+
+And to use this Interceptor in our controller we need to use a method decorator ` ` @Interceptors ` `
+
+``` typescript
+...
+@Controller('/player')
+@CrudModel(PlayerDto)
+export default class PlayerController extends TypeORMCrudController<PlayerDto> {
+    constructor() {
+        super(PlayerDto)
+    }
+
+    @Interceptors([CanLoginInterceptor]) // <-- used here.
+    @Get('/:id')
+    overridedDelete(@Param('id') id: string) {
+        // A validation process here.
+        return 'You are not authorized to run delete operation';
+    }
+}
+
+....
+```
+
+We also we can have an Interceptor on the controller. 
+Let's look at the example here.
+
+``` typescript
+import { Response, Next, Headers } from '@sustain/common';
+import { Injectable, SustainInterceptor } from "@sustain/core";
+
+@Injectable()
+export class PlayerInterceptor implements SustainInterceptor {
+    constructor() { }
+
+    intercept(@Next() next: any, @Response() response: any, @Headers() header: any) {
+        const { host } = header;
+        response.end( `Enter in PlayerInterceptors ${host}` );
         next();
     }
 }
 ```
 
-And using theses methods in the ``UserController``
+Don't forget to import it in main app module
 
+``` typescript
+@App({
+    controllers: [
+        BaseController,
+        DatabaseProvider,
+        PlayerController,
 
-```typescript
-import { Get, Post, Request, Params, Response } from "@sustain/htpp";
-import { Controller, Interceptors } from "@sustain/core";
-import { UserService } from "../services/user.service";
-import { Auth } from "../auth";
+    ],
+    providers: [
+        LoggerService,
+        UserService,
+        CanLoginInterceptor,  
+        PlayerInterceptor, // <-- addded here
+    ],
+   ...
+})
+```
 
+And in the controller 
 
-@Controller('/users')
-export default class UserController {
-    constructor(private userService: UserService) { }
+``` typescript
+...
 
-    @Get()
-    users() {
-        return this.userService.list();
-
+@Controller('/player', {
+    interceptors: [
+        PlayerInterceptors //  added here
+    ]
+})
+@CrudModel(PlayerDto)
+export default class PlayerController extends TypeORMCrudController<PlayerDto> {
+    constructor() {
+        super(PlayerDto)
     }
-
-    @Interceptors([
-        Auth.isAuthenticated, // this interceptor will be called before executing the userDetails method
-        Auth.validateParams, // we can also chain a list of function and they will be called in sequance
-    ])
-    @Get('/:id/details')
-    userDetails(@Request() request: HttpRequest , @Params() params: HttpParams) {
-        const { id } = params;
-        return this.userService.syncGet(id);
-    }
-}
-
+...
 ```
