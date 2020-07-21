@@ -3,13 +3,13 @@ id: interceptors
 title: Interceptors
 ---
 
-It intercept your request, execute some treatment and let it go, that's it.
+It intercepts your request, executes some treatment and let it go, that's it.
 
 ## Use cases
 
-The most place that make Interceptors usefull is the controller, we can take an example of the validation of a token.
+The use case the most interesting for using Interceptors is with controllers. Let’s take an example of a token validation
 
-It implements ` `SustainInterceptor`  ` interface from `  `@sustain/core` ` module
+It implements ` ` SustainInterceptor `  ` interface from `  ` @sustain/core ` ` module
 
 ``` typescript
 import { Response, Next, Headers } from '@sustain/common';
@@ -36,7 +36,7 @@ export class CanLoginInterceptor implements SustainInterceptor {
 }
 ```
 
-As we can see an interceptor is an ` ` @Injectable `  ` class so it need to be imported in the `  ` app module ` ` .
+As shown above, an interceptor is an ` ` @Injectable `  ` class so it should be imported in the `  ` app module ` ` .
 
 ``` typescript
 @App({
@@ -56,7 +56,7 @@ As we can see an interceptor is an ` ` @Injectable `  ` class so it need to be i
 })
 ```
 
-And to use this Interceptor in our controller we need to use a method decorator ` ` @Interceptors ` `
+And to use this Interceptor in the controller, we should use a method decorator ` ` @Interceptors ` `
 
 ``` typescript
 ...
@@ -78,7 +78,7 @@ export default class PlayerController extends TypeORMCrudController<PlayerDto> {
 ....
 ```
 
-We also we can have an Interceptor on the controller. 
+We can also have an Interceptor on the controller. 
 Let's look at the example here.
 
 ``` typescript
@@ -97,7 +97,7 @@ export class PlayerInterceptor implements SustainInterceptor {
 }
 ```
 
-Don't forget to import it in main app module
+Don't forget to import it in the main app module
 
 ``` typescript
 @App({
@@ -111,7 +111,7 @@ Don't forget to import it in main app module
         LoggerService,
         UserService,
         CanLoginInterceptor,  
-        PlayerInterceptor, // <-- addded here
+        PlayerInterceptor, // <-- added here
     ],
    ...
 })
