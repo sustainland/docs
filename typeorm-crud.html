@@ -1,0 +1,130 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>TypeORM CRUD · Sustain</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="TypeORM CRUD controllers provide the CRUD operations (create, read, update, delete) for TypeORM entities. "/><meta name="docsearch:language" content="en"/><meta property="og:title" content="TypeORM CRUD · Sustain"/><meta property="og:type" content="website"/><meta property="og:url" content="https://sustainland.github.io/docs/"/><meta property="og:description" content="TypeORM CRUD controllers provide the CRUD operations (create, read, update, delete) for TypeORM entities. "/><meta property="og:image" content="https://sustainland.github.io/docs/img/undraw_online.svg"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://sustainland.github.io/docs/img/undraw_tweetstorm.svg"/><link rel="shortcut icon" href="/docs/img/favicon.ico"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script><script src="/docs/js/scrollSpy.js"></script><link rel="stylesheet" href="/docs/css/main.css"/><script src="/docs/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/docs/"><img class="logo" src="/docs/img/logo.png" alt="Sustain"/><h2 class="headerTitleWithLogo">Sustain</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/overview" target="_self">Docs</a></li><li class=""><a href="https://github.com/sustainland/sustain" target="_self">Github</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Extensions</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">OVERVIEW</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/overview">Introduction</a></li><li class="navListItem"><a class="navItem" href="/docs/controllers">Controllers</a></li><li class="navListItem"><a class="navItem" href="/docs/services">Services</a></li><li class="navListItem"><a class="navItem" href="/docs/interceptors">Interceptors</a></li><li class="navListItem"><a class="navItem" href="/docs/modules">Modules</a></li><li class="navListItem"><a class="navItem" href="/docs/cli">CLI</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Extensions</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/swagger">Swagger</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/docs/typeorm-crud">TypeORM CRUD</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Tutorials</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/tutorials/create-new-app">01-Create Application</a></li><li class="navListItem"><a class="navItem" href="/docs/tutorials/create-new-controller">02-Create Controller</a></li><li class="navListItem"><a class="navItem" href="/docs/tutorials/create-new-service">03-Create Service</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">TypeORM CRUD</h1></header><article><div><span><p>TypeORM CRUD controllers provide the CRUD operations (create, read, update, delete) for TypeORM entities.
+Each Sustainjs controller can extend TypeORMCrudController to get out-of-the-box theses operation</p>
+<p>Let's take an example:
+Here we want to create Player controller.</p>
+<p>First of all we need a DTO for the entity :</p>
+<h2><a class="anchor" aria-hidden="true" id="typeorm-entity"></a><a href="#typeorm-entity" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>TypeORM Entity</h2>
+<pre><code class="hljs css language-typescript"><span class="hljs-keyword">import</span> { Column, ObjectIdColumn, ObjectID } <span class="hljs-keyword">from</span> <span class="hljs-string">'typeorm'</span>;
+<span class="hljs-keyword">import</span> { ApiProperty } <span class="hljs-keyword">from</span> <span class="hljs-string">'@sustain/common'</span>;
+<span class="hljs-keyword">import</span> { ProfileDto } <span class="hljs-keyword">from</span> <span class="hljs-string">"./ProfileDto"</span>;
+<span class="hljs-keyword">import</span> { Entity } <span class="hljs-keyword">from</span> <span class="hljs-string">'typeorm'</span>;
+
+<span class="hljs-meta">@Entity</span>()
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> PlayerDto {
+
+    <span class="hljs-meta">@ObjectIdColumn</span>()
+    id: ObjectID;
+
+    <span class="hljs-meta">@Column</span>()
+    <span class="hljs-meta">@ApiProperty</span>()
+    name: <span class="hljs-built_in">string</span>;
+
+    <span class="hljs-meta">@Column</span>()
+    <span class="hljs-meta">@ApiProperty</span>()
+    lastname: <span class="hljs-built_in">string</span>;
+
+    <span class="hljs-meta">@Column</span>()
+    <span class="hljs-meta">@ApiProperty</span>()
+    age: <span class="hljs-built_in">number</span>;
+
+    <span class="hljs-meta">@Column</span>()
+    <span class="hljs-meta">@ApiProperty</span>()
+    profile: ProfileDto;
+
+}
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="crud-controller"></a><a href="#crud-controller" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CRUD Controller</h2>
+<p>Then we easily create PlayerController that extends TypeORMCrudController and passing the DTO into it contractor.</p>
+<pre><code class="hljs css language-typescript"><span class="hljs-keyword">import</span> { CrudModel } <span class="hljs-keyword">from</span> <span class="hljs-string">'@sustain/common'</span>;
+<span class="hljs-keyword">import</span> { Controller } <span class="hljs-keyword">from</span> <span class="hljs-string">'@sustain/core'</span>;
+<span class="hljs-keyword">import</span> { PlayerDto } <span class="hljs-keyword">from</span> <span class="hljs-string">'../dto/PlayerDto'</span>;
+<span class="hljs-keyword">import</span> { TypeORMCrudController } <span class="hljs-keyword">from</span> <span class="hljs-string">'@sustain/crud'</span>;
+
+<span class="hljs-meta">@Controller</span>(<span class="hljs-string">'/player'</span>)
+<span class="hljs-meta">@CrudModel</span>(PlayerDto)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> PlayerController <span class="hljs-keyword">extends</span> TypeORMCrudController&lt;PlayerDto&gt; {
+    <span class="hljs-keyword">constructor</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-keyword">super</span>(PlayerDto)
+    }
+
+}
+</code></pre>
+<p>Let's find out what we got in Swagger-UI
+<img src="../img/type-orm-swagger-ui.PNG" alt="alt text" title="Swagger Ui"></p>
+<p>And the DTO will be added to swagger model section</p>
+<p><img src="../img/type-orm-dto-swagger-ui.PNG" alt="alt text" title="Swagger Ui"></p>
+<h2><a class="anchor" aria-hidden="true" id="override-operations"></a><a href="#override-operations" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Override operations</h2>
+<p>Sometimes we need to override operation for many reasons, for example, we need to check if the user is allowed to delete a player.</p>
+<pre><code class="hljs css language-typescript"><span class="hljs-meta">@Controller</span>(<span class="hljs-string">'/player'</span>)
+<span class="hljs-meta">@CrudModel</span>(PlayerDto)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> PlayerController <span class="hljs-keyword">extends</span> TypeORMCrudController&lt;PlayerDto&gt; {
+    <span class="hljs-keyword">constructor</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-keyword">super</span>(PlayerDto)
+    }
+
+    <span class="hljs-meta">@Delete</span>(<span class="hljs-string">':id'</span>) 
+    overridedDelete(<span class="hljs-meta">@Param</span>(<span class="hljs-string">'id'</span>) id: <span class="hljs-built_in">string</span>) {
+        <span class="hljs-comment">// A validation process here, you can use Interceptors </span>
+        <span class="hljs-keyword">return</span> <span class="hljs-string">'You are not authorized to run delete operation'</span>;
+    }
+}
+</code></pre>
+<p>The result will be
+<img src="../img/type-orm-swagger-ui-override-method.PNG" alt="alt text" title="Swagger Ui"></p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/swagger"><span class="arrow-prev">← </span><span>Swagger</span></a><a class="docs-next button" href="/docs/tutorials/create-new-app"><span>01-Create Application</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#typeorm-entity">TypeORM Entity</a></li><li><a href="#crud-controller">CRUD Controller</a></li><li><a href="#override-operations">Override operations</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="copyright">Copyright © 2020 Labidi Aymen</section></footer></div></body></html>

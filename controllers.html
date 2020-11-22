@@ -1,0 +1,244 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Controllers · Sustain</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="Controllers are a group related **HTTP** request handlers organized into classes, they are also the main responsible for returning **responses** to the client."/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Controllers · Sustain"/><meta property="og:type" content="website"/><meta property="og:url" content="https://sustainland.github.io/docs/"/><meta property="og:description" content="Controllers are a group related **HTTP** request handlers organized into classes, they are also the main responsible for returning **responses** to the client."/><meta property="og:image" content="https://sustainland.github.io/docs/img/undraw_online.svg"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://sustainland.github.io/docs/img/undraw_tweetstorm.svg"/><link rel="shortcut icon" href="/docs/img/favicon.ico"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script><script src="/docs/js/scrollSpy.js"></script><link rel="stylesheet" href="/docs/css/main.css"/><script src="/docs/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/docs/"><img class="logo" src="/docs/img/logo.png" alt="Sustain"/><h2 class="headerTitleWithLogo">Sustain</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/overview" target="_self">Docs</a></li><li class=""><a href="https://github.com/sustainland/sustain" target="_self">Github</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>OVERVIEW</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">OVERVIEW</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/overview">Introduction</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/docs/controllers">Controllers</a></li><li class="navListItem"><a class="navItem" href="/docs/services">Services</a></li><li class="navListItem"><a class="navItem" href="/docs/interceptors">Interceptors</a></li><li class="navListItem"><a class="navItem" href="/docs/modules">Modules</a></li><li class="navListItem"><a class="navItem" href="/docs/cli">CLI</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Extensions</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/swagger">Swagger</a></li><li class="navListItem"><a class="navItem" href="/docs/typeorm-crud">TypeORM CRUD</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Tutorials</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/tutorials/create-new-app">01-Create Application</a></li><li class="navListItem"><a class="navItem" href="/docs/tutorials/create-new-controller">02-Create Controller</a></li><li class="navListItem"><a class="navItem" href="/docs/tutorials/create-new-service">03-Create Service</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">Controllers</h1></header><article><div><span><p>Controllers are a group related <strong>HTTP</strong> request handlers organized into classes, they are also the main responsible for returning <strong>responses</strong> to the client.</p>
+<pre><code class="hljs css language-typescript"><span class="hljs-keyword">import</span> { Get, Post,  Request, Params, Response, Interceptors } <span class="hljs-keyword">from</span> <span class="hljs-string">"@sustain/common"</span>;
+<span class="hljs-keyword">import</span> { Controller } <span class="hljs-keyword">from</span>  <span class="hljs-string">"@sustain/core"</span>;
+<span class="hljs-keyword">import</span> { UserService } <span class="hljs-keyword">from</span> <span class="hljs-string">"../services/user.service"</span>;
+<span class="hljs-keyword">import</span> { Auth } <span class="hljs-keyword">from</span> <span class="hljs-string">"../auth"</span>;
+
+
+<span class="hljs-meta">@Controller</span>()
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> UserController {
+    <span class="hljs-keyword">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> userService: UserService</span>) { }
+
+    <span class="hljs-meta">@Get</span>(<span class="hljs-string">'/users'</span>)
+    users() {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.userService.list();
+
+    }
+
+    <span class="hljs-meta">@Get</span>(<span class="hljs-string">'/user/:id'</span>)
+    user(<span class="hljs-meta">@Request</span>() request: <span class="hljs-built_in">any</span>) {
+        <span class="hljs-keyword">const</span> { id } = request.params
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.userService.get(id);
+
+    }
+}
+
+</code></pre>
+<p>A decorator is a new way to JavaScript developer to do things <strong><a href="https://www.typescriptlang.org/">Thanks to TypeScript</a></strong>, get access to variable, manipulate and write data into them.</p>
+<p>There's a bunch of operator in Sustain framework that let you access and manipulate the HTTP inctances.</p>
+<p><strong>PS:</strong> You can also use scoped route defined in the controller like:</p>
+<pre><code class="hljs css language-typescript"><span class="hljs-keyword">import</span> { Get, Post,  Request, Params, Response, Interceptors } <span class="hljs-keyword">from</span> <span class="hljs-string">"@sustain/common"</span>;
+<span class="hljs-keyword">import</span> { Controller } <span class="hljs-keyword">from</span>  <span class="hljs-string">"@sustain/core"</span>;
+<span class="hljs-keyword">import</span> { UserService } <span class="hljs-keyword">from</span> <span class="hljs-string">"../services/user.service"</span>;
+<span class="hljs-keyword">import</span> { Auth } <span class="hljs-keyword">from</span> <span class="hljs-string">"../auth"</span>;
+
+
+<span class="hljs-meta">@Controller</span>(<span class="hljs-string">'users'</span>) <span class="hljs-comment">// define route prefix</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> UserController {
+    <span class="hljs-keyword">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> userService: UserService</span>) { }
+
+    <span class="hljs-meta">@Get</span>()
+    users() {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.userService.list();
+    }
+
+    <span class="hljs-meta">@Get</span>(<span class="hljs-string">':id'</span>)
+    user(<span class="hljs-meta">@Request</span>() request: <span class="hljs-built_in">any</span>) {
+        <span class="hljs-keyword">const</span> { id } = request.params
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.userService.get(id);
+
+    }
+}
+
+</code></pre>
+<p>This will generate</p>
+<ul>
+<li><p><strong>GET</strong> /users</p></li>
+<li><p><strong>GET</strong> /users/:id</p></li>
+</ul>
+<h2><a class="anchor" aria-hidden="true" id="controller-decorators"></a><a href="#controller-decorators" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Controller decorators</h2>
+<h2><a class="anchor" aria-hidden="true" id="get"></a><a href="#get" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>@Get()</h2>
+<p>You can listining to the GET Http methods in your controller by using the <strong>@Get('url segment or regex')</strong></p>
+<pre><code class="hljs css language-typescript"><span class="hljs-meta">@Get</span>(<span class="hljs-string">'/'</span>)
+home() {
+    <span class="hljs-keyword">return</span> <span class="hljs-string">"Hello Sustain"</span>;
+}
+</code></pre>
+<p>Or you can extract params from url</p>
+<pre><code class="hljs css language-typescript"><span class="hljs-meta">@Get</span>(<span class="hljs-string">'/:name'</span>)
+welcome(<span class="hljs-meta">@Param</span>(<span class="hljs-string">'name'</span>) name: <span class="hljs-built_in">string</span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`Welcome <span class="hljs-subst">${name}</span>`</span>;
+}
+</code></pre>
+<p>Here's a full example for the <strong>HomeController</strong></p>
+<pre><code class="hljs css language-typescript">
+<span class="hljs-meta">@Controller</span>()
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> HomeController {
+    <span class="hljs-meta">@Get</span>(<span class="hljs-string">'/'</span>)
+    welcome(<span class="hljs-meta">@Request</span>() request: HttpRequest) {
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"Hello Sustain"</span>;
+    }
+}
+
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="post"></a><a href="#post" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>@Post()</h2>
+<p>With the @Post() decorator you can start accepting post request.</p>
+<pre><code class="hljs css language-typescript"><span class="hljs-meta">@Controller</span>()
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> HomeController {
+    <span class="hljs-meta">@Post</span>()
+    PostBody(<span class="hljs-meta">@Body</span>() body: <span class="hljs-built_in">string</span>) {
+        <span class="hljs-keyword">return</span> body;
+    }
+}
+
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="body"></a><a href="#body" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>@Body()</h2>
+<p>You can grap all the body by the  @Body() decorator or you ca pick a single element from the Body by passing the name of the attribute</p>
+<pre><code class="hljs css language-typescript"><span class="hljs-meta">@Controller</span>()
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> HomeController {
+    <span class="hljs-meta">@Post</span>()
+    PostBody(<span class="hljs-meta">@Body</span>(<span class="hljs-string">'name'</span>) name: <span class="hljs-built_in">string</span>) {
+        <span class="hljs-keyword">return</span> name;
+    }
+}
+
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="params"></a><a href="#params" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>@Params()</h2>
+<p>Picking the url params is easy with the @Params() decorator.</p>
+<pre><code class="hljs css language-typescript">
+<span class="hljs-meta">@Get</span>(<span class="hljs-string">'/user/:id/details'</span>)
+userDetails(<span class="hljs-meta">@Params</span>() params: <span class="hljs-built_in">any</span>)  {
+    <span class="hljs-keyword">const</span>  {  id  }  = params;
+    <span class="hljs-keyword">return</span>  <span class="hljs-keyword">this</span>.userService.syncGet(id);
+}
+
+</code></pre>
+<p>You can also get a <em>single</em> param by passing the name to the @Param() decorator
+<strong>Example</strong></p>
+<pre><code class="hljs css language-typescript">
+<span class="hljs-meta">@Get</span>(<span class="hljs-string">'/user/:id/details'</span>)
+userDetails(<span class="hljs-meta">@Param</span>(<span class="hljs-string">'id'</span>) id: <span class="hljs-built_in">string</span>)  {
+    <span class="hljs-keyword">return</span>  <span class="hljs-keyword">this</span>.userService.syncGet(id);
+}
+
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="headers"></a><a href="#headers" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>@Headers()</h2>
+<p>Grabing the headers from the request is easy by using <strong>@Headers</strong> decorator</p>
+<p>We will take an example from the Interceptors</p>
+<pre><code class="hljs css language-typescript"><span class="hljs-keyword">import</span> { Next, Response, Headers, Interceptor} <span class="hljs-keyword">from</span> <span class="hljs-string">"@sustain/common"</span>;
+<span class="hljs-keyword">import</span> { Injectable } <span class="hljs-keyword">from</span> <span class="hljs-string">"@sustain/core"</span>;
+
+<span class="hljs-meta">@Injectable</span>()
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> Auth{
+
+    <span class="hljs-keyword">static</span> isAuthenticated(<span class="hljs-meta">@Next</span>() next: <span class="hljs-built_in">any</span>, <span class="hljs-meta">@Response</span>() res : <span class="hljs-built_in">any</span>, <span class="hljs-meta">@Headers</span>() header: <span class="hljs-built_in">any</span>) {
+        <span class="hljs-keyword">const</span> { host } = header;
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Enter in isAuthenticated from host <span class="hljs-subst">${host}</span>`</span>);
+        next();
+    }
+    ...
+}
+</code></pre>
+<p>In this example we will pick the host from the headers by passing the name <strong>@Header('host')</strong></p>
+<pre><code class="hljs css language-typescript"><span class="hljs-keyword">import</span> { Next, Response, Headers } <span class="hljs-keyword">from</span> <span class="hljs-string">"@sustain/common"</span>;
+<span class="hljs-keyword">import</span> { Injectable } <span class="hljs-keyword">from</span> <span class="hljs-string">"@sustain/core"</span>;
+
+<span class="hljs-meta">@Injectable</span>()
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> Auth{
+
+    <span class="hljs-keyword">static</span> isAuthenticated(<span class="hljs-meta">@Next</span>() next: <span class="hljs-built_in">any</span>, <span class="hljs-meta">@Response</span>() res : <span class="hljs-built_in">any</span>, <span class="hljs-meta">@Headers</span>(<span class="hljs-string">'host'</span>) host: <span class="hljs-built_in">any</span>) {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Enter in isAuthenticated from host <span class="hljs-subst">${host}</span>`</span>);
+        next();
+    }
+    ...
+}
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="responses"></a><a href="#responses" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Responses</h2>
+<p>The response is how to reply to the browser or the app that called the server, and we can grap the responce object with <strong>@Response()</strong> decorator.</p>
+<p>There's more than one way  to send response.</p>
+<h3><a class="anchor" aria-hidden="true" id="using-the-response-object"></a><a href="#using-the-response-object" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Using the response object</h3>
+<pre><code class="hljs css language-typescript"><span class="hljs-comment">// reply with string</span>
+greeting(<span class="hljs-meta">@Response</span>() response: HttpResponse) {
+    <span class="hljs-keyword">const</span> greetingMessage = <span class="hljs-string">"Hello Sustainer"</span>;
+    response.end(greetingMessage);
+}
+
+<span class="hljs-comment">//replay with json object</span>
+<span class="hljs-keyword">async</span> getUserDetails(<span class="hljs-meta">@Response</span>() response: HttpResponse, <span class="hljs-meta">@Params</span>() params: HttpParams) {
+    <span class="hljs-keyword">const</span> { id } = params;
+    <span class="hljs-keyword">const</span> userDetails = <span class="hljs-keyword">await</span> <span class="hljs-keyword">this</span>.userService.syncGet(id);
+    response.end(userDetails);
+}
+
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="responce-by-returning-value-string-json-"></a><a href="#responce-by-returning-value-string-json-" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Responce by returning value (string, json, ...)</h3>
+<pre><code class="hljs css language-typescript"><span class="hljs-comment">// reply by return a string</span>
+greeting() {
+    <span class="hljs-keyword">return</span> <span class="hljs-string">"Hello Sustainer"</span>;
+}
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="responce-by-returning-a-promise-async-await-promise"></a><a href="#responce-by-returning-a-promise-async-await-promise" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Responce by returning a promise  (async/await, Promise)</h3>
+<pre><code class="hljs css language-typescript"><span class="hljs-comment">// reply by return a promise</span>
+getUserDetails(<span class="hljs-meta">@Params</span>() params: HttpParams) {
+    <span class="hljs-keyword">const</span> { id } = params;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.userService.syncGet(id);
+}
+
+</code></pre>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/overview"><span class="arrow-prev">← </span><span>Introduction</span></a><a class="docs-next button" href="/docs/services"><span>Services</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#controller-decorators">Controller decorators</a></li><li><a href="#get">@Get()</a></li><li><a href="#post">@Post()</a></li><li><a href="#body">@Body()</a></li><li><a href="#params">@Params()</a></li><li><a href="#headers">@Headers()</a></li><li><a href="#responses">Responses</a><ul class="toc-headings"><li><a href="#using-the-response-object">Using the response object</a></li><li><a href="#responce-by-returning-value-string-json-">Responce by returning value (string, json, ...)</a></li><li><a href="#responce-by-returning-a-promise-async-await-promise">Responce by returning a promise  (async/await, Promise)</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="copyright">Copyright © 2020 Labidi Aymen</section></footer></div></body></html>
