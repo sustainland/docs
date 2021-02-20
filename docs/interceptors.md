@@ -51,7 +51,6 @@ As shown above, an interceptor is an `` @Injectable`` class so it should be impo
         UserService,
         CanLoginInterceptor,  // <-- addded here
     ],
-    port: process.env.PORT || 5002,
    ...
 })
 ```

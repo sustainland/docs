@@ -46,11 +46,6 @@ The service can be imported in the main application or in one of the application
     ],
     providers: [
        UserService, // <---- imported here
-    ],
-    port: process.env.PORT || 5002,
-    staticFolders: [
-        SWAGGER_FOLDER,
-        ROOT_FOLDER,
     ]
 })
 class AppModule { }
