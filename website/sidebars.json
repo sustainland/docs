@@ -11,8 +11,7 @@
       "cli"
     ],
     "Extensions": [
-      "swagger",
-      "typeorm-crud"
+      "swagger"
     ],
     "Tutorials": [
       "tutorials/create-new-app",
