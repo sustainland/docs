@@ -43,5 +43,5 @@ An extension is simply a class that implements ``SustainExtension`` with hooks t
 Sustain hooks are a lifecycle event for the application and the user requests
 |  Hook name |  params  |  Description  | 
 |---|---|---|
-|  onResquestStartHook |  ```request: SustainRequest ``` | execute when start treating a request 
-|  onResponseEndHook |  ```request: SustainRequest   response: SustainResponse``` | execute when treating a request is done 
+|  onResquestStartHook |  ```request: SustainRequest ``` | Execute when start treating a request 
+|  onResponseEndHook |  ```request: SustainRequest   response: SustainResponse``` | Execute when treating a request is done 

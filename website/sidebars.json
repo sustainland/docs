@@ -10,7 +10,7 @@
       "extensions",
       "cli"
     ],
-    "Extensions": [
+    "Packages": [
       "swagger"
     ],
     "Tutorials": [
