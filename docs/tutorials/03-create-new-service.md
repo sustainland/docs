@@ -85,8 +85,7 @@ We need to important the service into ``App.ts`` to let now the Injector that we
     ],
     providers: [
         ProjectService // <- added here
-    ],
-    port: process.env.PORT || 5002
+    ]
 })
 ...
 

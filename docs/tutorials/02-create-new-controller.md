@@ -61,8 +61,7 @@ export default class HelloController {
     controllers: [
         HelloController,
         ProjectController // <-- add it here
-    ],
-    port: process.env.PORT || 5002
+    ]
 })
 class AppModule { }
 
