@@ -5,8 +5,9 @@
       "controllers",
       "services",
       "interceptors",
-      "configs",
       "modules",
+      "configs",
+      "extensions",
       "cli"
     ],
     "Extensions": [
